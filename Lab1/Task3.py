@@ -55,7 +55,7 @@ def bubbleSort(array):
             break
     return array
 
-# Сортировка Шелла (Сравнение чисел с шагом
+# Сортировка Шелла (Сравнение чисел с шагом)
 def shellSort(array):
     import math
 
