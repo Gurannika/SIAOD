@@ -1,27 +1,36 @@
 from collections import deque
 
-def print_numbers_by_sign(file_path):
-    numbers_deque = deque()
+def process_file(input_file, output_file):
+    negative_stack = deque()
+    positive_stack = deque()
 
-    with open(file_path, 'r') as file:
+    with open(input_file, 'r') as file:
         for line in file:
-            for num_str in line.split():
-                num = int(num_str)
+            numbers = map(int, line.split())
+            for num in numbers:
                 if num < 0:
-                    numbers_deque.appendleft(num)
+                    negative_stack.append(num)
                 else:
-                    numbers_deque.append(num)
+                    positive_stack.append(num)
 
     print("Отрицательные числа:")
-    print_deque_contents(numbers_deque)
-    print("Положительные числа:")
-    print_deque_contents(numbers_deque)
+    while negative_stack:
+        print(negative_stack.pop())
 
-def print_deque_contents(deque):
-    while deque:
-        print(deque.popleft() if deque[0] < 0 else deque.pop(), end=' ')
-    print()
+    print("\nПоложительные числа:")
+    while positive_stack:
+        print(positive_stack.popleft())
 
+    with open(output_file, 'w') as output:
+        output.write("Отрицательные числа:\n")
+        while negative_stack:
+            output.write(str(negative_stack.pop()) + "\n")
 
-file_path = 'numbers.txt'
-print_numbers_by_sign(file_path)
+        output.write("\nПоложительные числа:\n")
+        while positive_stack:
+            output.write(str(positive_stack.popleft()) + "\n")
+
+input_file = 'numbers.txt'
+output_file = 'processed_numbers.txt'
+process_file(input_file, output_file)
+
